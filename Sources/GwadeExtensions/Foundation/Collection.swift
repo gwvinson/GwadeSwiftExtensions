@@ -8,12 +8,15 @@
 import Foundation
 
 extension Collection {
+    /// Remove the first n elements from a collection.
+    /// Returns a subsequence starting after the specified number of elements.
     public func removingFirst(_ n: Int) -> SubSequence {
         // Ensure that the number of elements to remove does not exceed the count of the collection
         let numberToRemove = Swift.min(n, count)
         return self.dropFirst(numberToRemove)
     }
     
+    /// Combine two collections and sort them.
     public func mergeAndSort(with otherCollection: [Element], reverse: Bool) -> [Element] where Element: Comparable & Equatable {
         // Combine this collection with the other collection
         let combinedArray = Array(self) + otherCollection
