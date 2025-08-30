@@ -8,13 +8,13 @@
 import Foundation
 
 extension Collection {
-    func removingFirst(_ n: Int) -> SubSequence {
+    public func removingFirst(_ n: Int) -> SubSequence {
         // Ensure that the number of elements to remove does not exceed the count of the collection
         let numberToRemove = Swift.min(n, count)
         return self.dropFirst(numberToRemove)
     }
     
-    func mergeAndSort(with otherCollection: [Element], reverse: Bool) -> [Element] where Element: Comparable & Equatable {
+    public func mergeAndSort(with otherCollection: [Element], reverse: Bool) -> [Element] where Element: Comparable & Equatable {
         // Combine this collection with the other collection
         let combinedArray = Array(self) + otherCollection
         
@@ -36,14 +36,15 @@ extension Collection {
 // MARK: Double Iterator
 
 extension Collection where Iterator.Element == Double {
-    ///Return the average value of the elements in the sequence
-    func average() -> Double {
+    /// Return the average value of the elements in the sequence
+    public func average() -> Double {
         guard self.count > 0 else { return 0 }
         let total = self.reduce(0) { $0 + $1 }
         return total / Double(self.count)
     }
     
-    func sum() -> Double {
+    /// Return the sum of all elements in the collection.
+    public func sum() -> Double {
         return self.reduce(0) { $0 + $1 }
     }
 }
@@ -53,7 +54,7 @@ extension Collection where Iterator.Element == Double {
 
 extension Collection {
     /// Returns an array of arrays, where each sub-array is of a specified maximum size.
-    func chunked(into size: Int) -> [[Element]] {
+    public func chunked(into size: Int) -> [[Element]] {
         var chunks: [[Element]] = []
         var startIndex = self.startIndex
         while let endIndex = self.index(startIndex, offsetBy: size, limitedBy: self.endIndex) {
