@@ -32,6 +32,21 @@ extension Date {
         return calendar.date(byAdding: .day, value: -1, to: self) ?? (self - 86_4000)
     }
     
+    /// Retrieve a copy of the date with it's granularity constrained to hours.
+    public var ignoringMinutes: Date {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day, .hour], from: self)
+        // If the calendar date creation succeeds, return
+        // the date.
+        if let date = calendar.date(from: components) {
+            return date
+        }
+        // Manually set the date to the nearest hour.
+        let timeInterval = self.timeIntervalSince1970
+        let hours = (timeInterval / 3600).rounded(.down)
+        return Date(timeIntervalSince1970: hours * 3600)
+    }
+    
     /// Retrieve a copy of the date with it's granularity constrained to minutes.
     public var ignoringSeconds: Date {
         let calendar = Calendar.current
