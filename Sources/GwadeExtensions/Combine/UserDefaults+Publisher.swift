@@ -15,7 +15,7 @@ extension UserDefaults {
     ///     - Parameters:
     ///     key: The UserDefaults key used to store the data.
     ///     type: The data type the object will be decoded to.
-    func publisher<T: Codable & Equatable>(
+    public func publisher<T: Codable & Equatable>(
         forKey key: String,
         as type: T.Type
     ) -> AnyPublisher<T?, Never> {
