@@ -14,11 +14,26 @@ extension UserDefaults {
     ///
     ///     - Parameters:
     ///     key: The UserDefaults key used to store the data.
-    public func publisher<T: Equatable>(forKey key: String) -> AnyPublisher<T?, Never> {
-        NotificationCenter.default
+    ///     type: The data type the object will be decoded to.
+    func publisher<T: Codable & Equatable>(
+        forKey key: String,
+        as type: T.Type
+    ) -> AnyPublisher<T?, Never> {
+        
+        // Determine the value currently stored.
+        let currentValue: T? = {
+            guard let data = self.data(forKey: key) else { return nil }
+            return try? JSONDecoder().decode(T.self, from: data)
+        }()
+        
+        // Return the publisher.
+        return NotificationCenter.default
             .publisher(for: UserDefaults.didChangeNotification, object: self)
-            .map { _ in self.object(forKey: key) as? T }
-            .prepend(self.object(forKey: key) as? T)
+            .map { _ -> T? in
+                guard let data = self.data(forKey: key) else { return nil }
+                return try? JSONDecoder().decode(T.self, from: data)
+            }
+            .prepend(currentValue)
             .removeDuplicates()
             .eraseToAnyPublisher()
     }
