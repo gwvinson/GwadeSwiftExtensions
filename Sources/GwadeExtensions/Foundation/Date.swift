@@ -61,6 +61,12 @@ extension Date {
         return calendar.date(from: components) ?? self
     }
     
+    /// Retrieve a copy of the date with it's granularity constrained to milliseconds.
+    public var ignoringMicroseconds: Date {
+        let ms = round(timeIntervalSinceReferenceDate * 1000) / 1000
+        return Date(timeIntervalSinceReferenceDate: ms)
+    }
+    
     /// Return the hour from the date.
     public var hour: Int {
         Calendar.current.component(.hour, from: self)
